@@ -6,8 +6,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 
-//using Newtonsoft.json;
-
 namespace FrameworkConsoleApp
 {
     class Program
