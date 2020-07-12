@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemDefinitionGroup>
+	<Person>
+		<Greeting>Hello %(Identity)!</Greeting>
+	</Person>
+  </ItemDefinitionGroup>
+  
+  <ItemGroup>
+    <Person Include = "Martin" Age="28" />
+	<Person Include = "John" Age="19" />
+	<Person Include = "Christina" Age="28" />
+
+  </ItemGroup>
+  
+  <Target Name="GreetByAge">
+	<Message Text="%(Person.Age): Hello @(Person, ', ')!" Importance="high" />
+  </Target>
+
+</Project>

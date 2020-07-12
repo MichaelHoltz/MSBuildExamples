@@ -1,0 +1,18 @@
+
+FOR CORE
+<ItemGroup>
+	<None Include="..\SharedFiles\**\*.txt"
+	LinkBase="TextFiles"
+	CopyToOutputDirectory="PreserveNewest"
+	Visible="false"
+	/>
+</ItemGroup>
+
+FOR FRAMEWORK
+<ItemGroup>
+	<None Include="..\SharedFiles\**\*.txt"
+	Link="TextFiles\%(RecursiveDir)%(Filename)%(Extension)"
+	CopyToOutputDirectory="PreserveNewest"
+	Visible="false"
+	/>
+</ItemGroup>

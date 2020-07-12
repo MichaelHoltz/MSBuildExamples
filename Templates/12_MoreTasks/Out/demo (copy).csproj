@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Movement">
+
+  <PropertyGroup>
+    <Source_Dir>$(MSBuildProjectDirectory)</Source_Dir>
+    <Destination_Dir>$(MSBuildProjectDirectory)\Out</Destination_Dir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MySourceFiles Include="$(Source_Dir)\**\*.*" />
+    <MySourceFiles Remove="$(Source_Dir)\Out\**\*.*" />
+    <MyDestFiles Include="$(Destination_Dir)\**\*.*" />
+  </ItemGroup>  
+
+  <Target Name="Movement">
+    <Message Text="Removing $(Destination_Dir)%0A" Importance="high" />
+    <RemoveDir Directories="$(Destination_Dir)" />
+    <Message Text="Copying Files Recursively%0A" Importance="high" />
+    <Copy
+        SourceFiles="@(MySourceFiles)"
+        DestinationFiles="@(MySourceFiles->'$(Destination_Dir)\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+  </Target>
+
+  <Target Name="GetHash" AfterTargets="Movement">
+    <Message Text="Hashing $(Source_Dir) Recursively" Importance="high" />
+    <GetFileHash Files="@(MySourceFiles)">
+      <Output
+          TaskParameter="Items"
+          ItemName="InFilesWithHashes" />
+    </GetFileHash>
+    <Message Importance="High" Text="@(InFilesWithHashes->'%09%(Identity): %(FileHash)', '%0A')%0A" />
+    
+    <Message Text="Hashing $(Destination_Dir) Recursively" Importance="high" />
+    <GetFileHash Files="@(MyDestFiles)">
+      <Output
+          TaskParameter="Items"
+          ItemName="OutFilesWithHashes" />
+    </GetFileHash>
+    <Message Importance="High" Text="@(OutFilesWithHashes->'%09%(Identity): %(FileHash)', '%0A')%0A" />
+    
+    <ItemGroup>
+        <HostListOne Condition=" '%(Identity)' != '' and '@(InFilesWithHashes)' != '' and '@(OutFilesWithHashes)' != '' "> 
+            <AdditionalProperties>Mismatch=True</AdditionalProperties> 
+        </HostListOne> 
+    </ItemGroup>
+    <Message Text="Host List One:" Importance="High" />
+    <Message Text="%(HostListOne.identity) %(HostListOne.AdditionalProperties)" Importance="High" />  
+
+  </Target>  
+
+</Project>
+
+

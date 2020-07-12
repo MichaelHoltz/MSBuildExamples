@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Greet">
+  
+  <Target Name="Greet" DependsOnTargets="PrepareGreeting">
+	<Message Text="$(Greeting)" Importance="high" />
+	<Message Text="NewGuid: $(NewGuid)" Importance="high" />
+	<Message Text="Version: $(Version)" Importance="high" />
+	<Message Text="CommitCount: $(CommitCount)" Importance="high" />
+	
+  </Target>
+  
+  <Target Name="PrepareGreeting">
+	<PropertyGroup>
+		<Greeting>Hello World!</Greeting>
+		<NewGuid>$([System.Guid]::NewGuid())</NewGuid>
+	</PropertyGroup>
+  </Target>
+
+  <Import Project="bye.targets" />
+
+  <ItemGroup>
+	<PathItem Include="$(PATH)" />
+  </ItemGroup>
+  <Target Name="ListPathItems" AfterTargets="SayBye">
+	<Message Text="@(PathItem, '%0A')" Importance="high" />
+  </Target>
+
+</Project>

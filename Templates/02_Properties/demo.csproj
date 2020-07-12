@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Greeting>Hello $(Person)</Greeting>
+  </PropertyGroup>
+  <Target Name="Greet">
+    <Message Text="$(Greeting)!" Importance="high" />
+	<Message Text="TargetFramework = $(TargetFramework)" Importance="high" />
+	<Message Text="MS Build Project Directory = $(MSBuildProjectDirectory)" Importance="high" />
+	<Message Text="Project File Name = $(MSBuildProjectFile)" Importance="high" />
+	<Message Text="MS Build Project Full Path = $(MSBuildProjectFullPath)" Importance="high" />
+	<Message Text="Files = @(File)" Importance="high" />
+	
+  </Target>
+  <ItemGroup>
+    <File Include = "file1.cs"/>
+    <File Include = "file2.cs"/>
+</ItemGroup>
+</Project>

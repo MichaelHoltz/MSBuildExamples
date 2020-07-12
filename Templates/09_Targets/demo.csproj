@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Greet">
+  
+  <Target Name="Greet" DependsOnTargets="PrepareGreeting">
+	<Message Text="$(Greeting)" Importance="high" />
+  </Target>
+  
+  <Target Name="PrepareGreeting">
+	<PropertyGroup>
+		<Greeting>Hello World!</Greeting>
+	</PropertyGroup>
+  </Target>
+
+  <Target Name="SayByeAfterGreet" AfterTargets="Greet">
+	<CallTarget Targets="SayBye" />
+  </Target>
+  
+  <Target Name="SayBye">
+	<Message Text="Bye!" Importance="high" />
+  </Target>
+
+</Project>

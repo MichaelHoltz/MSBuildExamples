@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Greet">
+
+  <PropertyGroup>
+    <Source_Dir>$(MSBuildProjectDirectory)</Source_Dir>
+    <Destination_Dir>$(MSBuildProjectDirectory)\Out</Destination_Dir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Person Include = "Martin;Christina" />
+    <Person Include = "John" />
+  </ItemGroup>
+  <Target Name="Greet">
+    <Message Text="@(Person->'Hello %(Identity)', '%0A')%0A" Importance="high" />
+  </Target>
+
+  <ItemGroup>
+    <MySourceFiles Include="$(Source_Dir)\**\*.*" />
+    <MySourceFiles Remove="$(Source_Dir)\Out\**\*.*" />
+    <MyDestFiles Include="$(Destination_Dir)\**\*.*" />
+  </ItemGroup>  
+  <Target Name="RemoveDirectories" AfterTargets="Greet">
+    <Message Text="Removing $(Destination_Dir)%0A" Importance="high" />
+    <RemoveDir Directories="$(Destination_Dir)" />
+  </Target>
+
+  <Target Name="GetHash" AfterTargets="RemoveDirectories">
+    <Message Text="Hashing $(Source_Dir) Recursively%0A" Importance="high" />
+    <GetFileHash Files="@(MySourceFiles)">
+      <Output
+          TaskParameter="Items"
+          ItemName="FilesWithHashes" />
+    </GetFileHash>
+    <Message Importance="High" Text="@(FilesWithHashes->'%(Identity): %(FileHash)', '%0A')" />
+  </Target>  
+
+  <Target Name="CopyFiles" AfterTargets="GetHash">
+    <Message Text="Copying Files Recursively%0A" Importance="high" />
+    <Copy
+        SourceFiles="@(MySourceFiles)"
+        DestinationFiles="@(MySourceFiles->'$(Destination_Dir)\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+  </Target>
+
+  <Target Name="GetOutHash" AfterTargets="CopyFiles">
+    <Message Text="Hashing $(Destination_Dir) Recursively%0A" Importance="high" />
+    <GetFileHash Files="@(MyDestFiles)">
+      <Output
+          TaskParameter="Items"
+          ItemName="FilesWithHashes" />
+    </GetFileHash>
+    <Message Importance="High" Text="@(FilesWithHashes->'%(Identity): %(FileHash)', '%0A')" />
+  </Target>  
+
+</Project>
+
+

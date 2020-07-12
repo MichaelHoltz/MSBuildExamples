@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+	<GreetFile Include="*.greet.txt" />
+  </ItemGroup>  
+
+  
+  <Target Name="Greet">
+	<ReadLinesFromFile File="%(GreetFile.Identity)">
+		<Output TaskParameter="Lines" ItemName="Greeting" />
+	</ReadLinesFromFile>
+	<Message Text="@(Greeting, '%0A')" Importance="high" />
+	<Message Text="Used Greetings from: %0A@(GreetFile->'* %(FullPath) - %(ModifiedTime)', '%0A')" Importance="high" />
+  </Target>
+
+</Project>
