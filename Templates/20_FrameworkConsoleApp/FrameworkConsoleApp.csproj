@@ -3,6 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BambooBuildNumber Condition=" '$(BambooBuildNumber)' == '' ">Not Built with Bamboo</BambooBuildNumber>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8F29181B-8D0D-4687-A98B-4F1343218D32}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -50,5 +51,10 @@
   <ItemGroup Condition="'$(TargetFrameworkVersion)' == 'V4.7.2'">
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
+  <Target Name="WriteBambooInfo" BeforeTargets="Build">
+    <Message Text="Writing Bamboo Info before Build %0A" Importance="high" />
+    <!--RemoveDir Directories="$(Destination_Dir)" / -->
+    <WriteLinesToFile File="$(OutputPath)BambooInfo.txt" Lines="$(BambooBuildNumber)" Overwrite="True" Encoding="Unicode" />
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
