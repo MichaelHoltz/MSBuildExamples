@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
+using System.Reflection;
+
 //using Newtonsoft.json;
 
 namespace FrameworkConsoleApp
@@ -11,26 +14,76 @@ namespace FrameworkConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World of MSBuild");
-            Object[] ca = System.Reflection.Assembly.GetEntryAssembly().GetCustomAttributes(false);
+            Console.WriteLine("Hello World of MSBuild!");
+            Console.WriteLine(""); //Blank Line
+
+            PrintTargetFramework();
+
+            PrintBuildType();
+
+            PrintBambooInfo();
+
+            //Keep the console open to be able to see what it says if not run from a Command Window
+            Console.WriteLine("Press Any Key to continue");
+            Console.ReadLine();
+        }
+        static void PrintTargetFramework()
+        {
+            Object[] ca = Assembly.GetEntryAssembly().GetCustomAttributes(false);
             foreach (var item in ca)
             {
                 if (item.GetType().FullName == "System.Runtime.Versioning.TargetFrameworkAttribute")
                 {
                     System.Runtime.Versioning.TargetFrameworkAttribute t = (System.Runtime.Versioning.TargetFrameworkAttribute)item;
-                    Console.WriteLine("Current .NET framework is: " + t.FrameworkDisplayName);
+                    Console.WriteLine("Current .NET Framework is: " + t.FrameworkDisplayName);
                 }
             }
-            if(File.Exists("BambooInfo.txt")){
-                String bambooInfo = File.ReadAllText("BambooInfo.txt");
-                Console.WriteLine("Bamboo Build Number = " + bambooInfo);
+        }
+        static void PrintBuildType()
+        {
+            Assembly ReflectedAssembly = typeof(Program).Assembly;
+
+            object[] attribs = ReflectedAssembly.GetCustomAttributes(typeof(DebuggableAttribute), false);
+            bool IsJITOptimized = false;
+            //bool HasDebuggableAttribute = false;
+            String DebugOutput = "";
+            String BuildType = "Unknown";
+            // If the 'DebuggableAttribute' is not found then it is definitely an OPTIMIZED build
+            if (attribs.Length > 0)
+            {
+                // Just because the 'DebuggableAttribute' is found doesn't necessarily mean
+                // it's a DEBUG build; we have to check the JIT Optimization flag
+                // i.e. it could have the "generate PDB" checked but have JIT Optimization enabled
+                DebuggableAttribute debuggableAttribute = attribs[0] as DebuggableAttribute;
+                if (debuggableAttribute != null)
+                {
+                    //HasDebuggableAttribute = true;
+                    IsJITOptimized = !debuggableAttribute.IsJITOptimizerDisabled;
+                    BuildType = debuggableAttribute.IsJITOptimizerDisabled ? "Debug" : "Release";
+
+                    // check for Debug Output "full" or "pdb-only"
+                    DebugOutput = (debuggableAttribute.DebuggingFlags &
+                                    DebuggableAttribute.DebuggingModes.Default) !=
+                                    DebuggableAttribute.DebuggingModes.None
+                                    ? " Full" : " pdb-only";
+                }
+            }
+            else
+            {
+                IsJITOptimized = true;
+                BuildType = "Release";
             }
 
-            
+            Console.WriteLine("BuildType:                 " + BuildType + DebugOutput);
+        }
 
-            Console.WriteLine("Press Any Key to continue");
-            //Keep the console open to be able to see what it says if not run from a Command Window
-            Console.ReadLine();
+        static void PrintBambooInfo()
+        {
+            if (File.Exists("BambooInfo.txt"))
+            {
+                String bambooInfo = File.ReadAllText("BambooInfo.txt");
+                Console.WriteLine("Bamboo Build Number:       " + bambooInfo);
+            }
         }
     }
 }
