@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+  	<Version>2.0.0.3</Version>
+	<FileVersion>2.0.0.3</FileVersion>
+	<Authors>Michael Holtz</Authors>
+	<Copyright>Michael Holtz</Copyright>
+	<AssemblyTitle>FrameworkConsoleApp-$(TargetFramework)</AssemblyTitle>
+  </PropertyGroup>
+</Project>
