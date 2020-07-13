@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net40;net452;net462;net472</TargetFrameworks>
+    <TargetFrameworks>net472;net40;net452;net462;</TargetFrameworks>
 	<BambooBuildNumber Condition=" '$(BambooBuildNumber)' == '' ">Not Built with Bamboo</BambooBuildNumber>
   </PropertyGroup>
 

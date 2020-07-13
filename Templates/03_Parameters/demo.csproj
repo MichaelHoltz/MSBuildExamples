@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
   <PropertyGroup>
 	  <Greeting>Hello $(Person)</Greeting>
     <BambooBuildNumber Condition=" '$(BambooBuildNumber)' == '' ">N/A</BambooBuildNumber>
   </PropertyGroup>
+
+  <ItemGroup>
+    <File Include = "file1.cs"/>
+    <File Include = "file2.cs"/>
+  </ItemGroup>
+
   <Target Name="Greet">
     <Message Text="$(Greeting)!" Importance="high" />
     <Message Text="BambooBuildNumber: $(BambooBuildNumber)" Importance="high" />
@@ -13,10 +20,6 @@
 	  <Message Text="MS Build Project Full Path = $(MSBuildProjectFullPath)" Importance="high" />
 	  <Message Text="Files = @(File)" Importance="high" />
     <Message Text="Files:%0A%09@(File, '%0A%09')" Importance="high" />
-	
   </Target>
-  <ItemGroup>
-    <File Include = "file1.cs"/>
-    <File Include = "file2.cs"/>
-</ItemGroup>
+
 </Project>

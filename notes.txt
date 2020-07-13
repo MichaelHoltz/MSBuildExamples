@@ -1,0 +1,23 @@
+  <ItemGroup Condition="'$(TargetFrameworkVersion)' == 'V4.0' or '$(TargetFrameworkVersion)' == 'V4.5.2' or '$(TargetFrameworkVersion)' == 'V4.6.2'">
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFrameworkVersion)' == 'V4.7.2'">
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+  
+  
+  <PropertyGroup>
+	<GlobExclude>bin\**;obj\**</GlobExclude>
+  </PropertyGroup>
+  
+  <ItemGroup>
+	<Compile Include="**\*.cs Exclude="$(GlobExclude)" />
+	<Compile Include="**\*.txt Exclude="$(GlobExclude)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  
+  Targets:
+  "Top-level" targets include Build, Clean, Rebuild, Publish, and Pack
+  
+  Target Dependencies
+  DependsOnTargets, BeforeTargets, AfterTargets
+  

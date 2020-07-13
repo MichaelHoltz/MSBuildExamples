@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <Person Include="Martin;Christina" />
+    <Person Include="John" />
+  </ItemGroup>
+  <ItemGroup>
+    <Thing Include="Item1" A1="1">
+        <Prop1>P1</Prop1>
+    </Thing>
+    <Thing Include="Item2" A1="2">
+        <Prop1>P2</Prop1>
+    </Thing>
+    <Thing Include="Item3" A1="2">
+        <Prop1>P2</Prop1>
+    </Thing>    
+    <Thing Include="Item4" A1="2">
+        <Prop1>P3</Prop1>
+    </Thing>    
+  </ItemGroup>
+
+
+  <Target Name="Greet">
+    <Message Text="@(Person->'Hello %(Identity)', '%0A')" Importance="high" />
+    <Message Text="********  Method 1  ********" Importance="high" />
+    <Message Text="@(Thing->'Thing: %(Identity) has Prop1 Metadata: %(Prop1) and A1 MetaData: %(A1)', '%0A')%0A" Importance="high" />
+    <Message Text="********  Method 1  ********" Importance="high" />
+    <Message Text="Thing: %(Thing.Identity) has Prop1 MetaData: %(Thing.Prop1) and A1 MetaData: %(Thing.A1)%0A" Importance="high" />
+    <Message Text="********  Grouping 1  ********" Importance="high" />
+    <Message Text="Thing: has Prop1 MetaData: %(Thing.Prop1) and A1 MetaData: %(Thing.A1) In Thing: @(Thing, ' and ')%0A" Importance="high" />
+  </Target>
+  
+
+</Project>
