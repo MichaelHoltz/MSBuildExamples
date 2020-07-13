@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net40;net452;net462;net472</TargetFrameworks>
+	<BambooBuildNumber Condition=" '$(BambooBuildNumber)' == '' ">Not Built with Bamboo</BambooBuildNumber>
+  </PropertyGroup>
+
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'net462'">
+	<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+  </ItemGroup>
+
+  <Target Name="WriteBambooInfo" BeforeTargets="CoreCompile">
+    <Message Text="Writing Bamboo Info before CoreCompile%0A" Importance="high" />
+    <!--RemoveDir Directories="$(Destination_Dir)" / -->
+    <WriteLinesToFile File="$(OutputPath)BambooInfo.txt" Lines="$(BambooBuildNumber)" Overwrite="True" Encoding="Unicode" />
+  </Target>
+  
+</Project>
