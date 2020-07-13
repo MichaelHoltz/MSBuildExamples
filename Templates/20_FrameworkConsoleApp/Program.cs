@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace FrameworkConsoleApp
 {
@@ -12,7 +13,10 @@ namespace FrameworkConsoleApp
     {
         static void Main(string[] args)
         {
+            ConsoleColor c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Hello World of MSBuild!");
+            Console.ForegroundColor = c;
             Console.WriteLine(""); //Blank Line
 
             PrintTargetFramework();
@@ -21,6 +25,14 @@ namespace FrameworkConsoleApp
 
             PrintBambooInfo();
 
+            DemoClass dc = new DemoClass();
+            dc.Name = "Demo Class";
+            string json = JsonConvert.SerializeObject(dc);
+            Assembly jc = typeof(JsonConvert).Assembly;
+            Console.WriteLine("Newtonsoft.Json:           " + jc.FullName);
+
+
+            Console.WriteLine(""); //Blank Line
             //Keep the console open to be able to see what it says if not run from a Command Window
             Console.WriteLine("Press Any Key to continue");
             Console.ReadLine();
