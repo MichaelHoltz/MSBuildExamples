@@ -1,0 +1,21 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- This simple inline task displays "Hello, world!" -->
+  <UsingTask
+    TaskName="HelloWorld"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+    <ParameterGroup />
+    <Task>
+      <Reference Include="System.Xml"/>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Code Type="Fragment" Language="cs">
+<![CDATA[
+// Display "Hello, world!"
+Log.LogMessage(MessageImportance.High,"Hello, MSBuild");
+Log.LogError("Hello, world!");
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+</Project>

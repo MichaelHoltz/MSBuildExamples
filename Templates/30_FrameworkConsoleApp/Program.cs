@@ -31,7 +31,30 @@ namespace FrameworkConsoleApp
             Assembly jc = typeof(JsonConvert).Assembly;
             Console.WriteLine("Newtonsoft.Json:           " + jc.FullName);
 
+            int val = dc.StringToInt("1234");
 
+            Stack s = new Stack();
+            s.Push("Four");
+            s.Push(3);
+            s.Push("Two");
+            s.Push(1);
+            Console.WriteLine("Stack Pop:                 " + s.Pop());
+            Console.WriteLine("Stack Pop:                 " + s.Pop());
+            Console.WriteLine("Stack Pop:                 " + s.Pop());
+            Console.WriteLine("Stack Pop:                 " + s.Pop());
+
+            dc.YieldStatement();
+#if NETCOREAPP3_1
+            Console.WriteLine("Features only allowed in C# 8.0 (NETCoreApp3.0) or higher");
+            Console.WriteLine(dc.GetNameGreeting("Michael", "Jonathan", "Holtz"));
+            Console.WriteLine(dc.GetNameGreeting("Michael", null, "Holtz"));
+            Console.WriteLine(dc.GetNameGreeting("Michael", "Jonathan", null));
+            Console.WriteLine(dc.GetNameGreeting("Michael", null, null));
+            Console.WriteLine(dc.GetNameGreeting(null, "Jonathan", "Holtz"));
+            Console.WriteLine(dc.GetNameGreeting(null, null, "Holtz"));
+            Console.WriteLine(dc.GetNameGreeting(null, "Jonathan", null));
+            Console.WriteLine(dc.GetNameGreeting(null, null, null));
+#endif
             Console.WriteLine(""); //Blank Line
             //Keep the console open to be able to see what it says if not run from a Command Window
             Console.WriteLine("Press Any Key to continue");
@@ -94,6 +117,7 @@ namespace FrameworkConsoleApp
                 String bambooInfo = File.ReadAllText("BambooInfo.txt");
                 bambooInfo = bambooInfo.Replace("\r\n", "");
                 Console.WriteLine("Bamboo Build Number:       " + bambooInfo);
+                
             }
         }
     }

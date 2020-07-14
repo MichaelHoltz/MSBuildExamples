@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net472;net40;net452;net462;</TargetFrameworks>
+	<TargetFrameworks>net472;net40;net452;net462;netcoreapp3.1;</TargetFrameworks>
 	<BambooBuildNumber Condition=" '$(BambooBuildNumber)' == '' ">Not Built with Bamboo</BambooBuildNumber>
   </PropertyGroup>
 
@@ -11,10 +11,15 @@
 	<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
   </ItemGroup>
 
+<!--or '$(TargetFramework)' == 'netstandard2.1"-->
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+	<PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+  </ItemGroup>	
+	
   <Target Name="WriteBambooInfo" BeforeTargets="CoreCompile">
     <Message Text="Writing Bamboo Info before CoreCompile%0A" Importance="high" />
     <!--RemoveDir Directories="$(Destination_Dir)" / -->
