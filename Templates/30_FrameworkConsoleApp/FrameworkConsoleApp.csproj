@@ -8,16 +8,16 @@
 
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40' or '$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'net462'">
-	<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 <!--or '$(TargetFramework)' == 'netstandard2.1"-->
   <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-	<PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>	
 	
   <Target Name="WriteBambooInfo" BeforeTargets="CoreCompile">
